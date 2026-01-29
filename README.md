@@ -1,73 +1,120 @@
-# React + TypeScript + Vite
+<p align="center">
+  <img src="assets/logo.png" alt="SkillSense Logo" width="140"/>
+</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<h1 align="center">SkillSense</h1>
 
-Currently, two official plugins are available:
+<p align="center">
+  <b>AI-Powered CV Analyzer & Portfolio Generator</b><br/>
+  Analyze. Improve. Get Hired.
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<p align="center">
+  <img src="https://img.shields.io/badge/AI-Powered-blueviolet"/>
+  <img src="https://img.shields.io/badge/Feature--Based-Architecture-success"/>
+  <img src="https://img.shields.io/badge/React-TypeScript-blue"/>
+</p>
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🧠 What is SkillSense?
 
-## Expanding the ESLint configuration
+**SkillSense** is a modern AI-driven platform that analyzes resumes, evaluates skills, and generates optimized CVs and professional portfolios automatically.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+It helps candidates:
+- Understand their real skill level
+- Improve ATS compatibility
+- Present themselves professionally
+- Increase hiring chances
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## ✨ Product Preview
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 🏠 Landing Page
+<img src="assets/screenshots/landing.png" alt="Landing Page" width="100%"/>
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 📄 CV Upload
+Upload your CV as **PDF / DOCX** and start AI analysis instantly.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+<img src="assets/screenshots/upload.png" alt="CV Upload" width="100%"/>
+
+---
+
+### 📊 AI Resume Analysis Dashboard
+- Overall CV Score
+- ATS Score
+- Skill Evaluation
+- Strengths & Weaknesses
+
+<img src="assets/screenshots/dashboard.png" alt="AI Dashboard" width="100%"/>
+
+---
+
+### ✍️ AI CV Improvement
+Compare original vs AI-enhanced content and apply improvements.
+
+<img src="assets/screenshots/review.png" alt="CV Review" width="100%"/>
+
+---
+
+### 🌐 Portfolio Generator
+Auto-generated professional portfolio with customizable themes.
+
+<img src="assets/screenshots/portfolio.png" alt="Portfolio Preview" width="100%"/>
+
+---
+
+### 📤 Export & Share
+Download your CV or share your portfolio instantly.
+
+<img src="assets/screenshots/export.png" alt="Export Page" width="100%"/>
+
+---
+
+## 🚀 Key Features
+
+### 📄 AI Resume Analysis
+- CV parsing (PDF / DOCX)
+- ATS compatibility scoring
+- Resume quality rating (0–100)
+
+### 📊 Skill Intelligence
+- Technical & soft skill evaluation
+- Skill gaps detection
+- Seniority level estimation
+
+### ✨ AI Improvements
+- Resume summary rewriting
+- Experience optimization
+- Keyword enhancement
+
+### 🌐 Portfolio Generation
+- Professional personal website
+- Custom themes & colors
+- Fully responsive design
+
+### 📤 Export Options
+- CV as PDF
+- Portfolio shareable link
+- Multiple CV versions
+
+---
+
+## 🧩 Tech Stack
+
+### Frontend
+- React
+- TypeScript
+- Tailwind CSS
+- Shadcn UI
+- React Hook Form
+- Framer Motion
+
+### Backend
+- Node.js
+- REST APIs
+- AI (LLMs)
+- Resume Parsing
