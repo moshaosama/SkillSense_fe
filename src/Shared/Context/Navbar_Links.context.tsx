@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode, useContext } from "react";
+import { createContext, useState, useContext, type ReactNode } from "react";
 
 // Define context type
 interface NavbarLinksContextType {
@@ -39,6 +39,7 @@ export const Navbar_Links_Provider = ({
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useNavbar = () => {
   const context = useContext(Navbar_Links_Context);
   if (!context) {
