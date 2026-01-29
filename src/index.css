@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+:root {
+  --main-color: #2164c9;
+  --hover-color: #325a97;
+}
+
+body {
+  background-color: #eee;
+}
+
+.btn-main {
+  @apply text-white font-bold px-8 py-2 rounded-xl transition-all duration-150 cursor-pointer;
+  background-color: var(--main-color);
+}
+
+.btn-main:hover {
+  background-color: var(--hover-color);
+}
