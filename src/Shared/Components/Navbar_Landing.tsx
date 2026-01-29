@@ -1,7 +1,7 @@
 import { Menu } from "lucide-react";
 import { useNavbar } from "../Context/Navbar_Links.context";
 import cn from "../../utils/cn";
-import { Link } from "react-router";
+import { Link, Links } from "react-router";
 
 const globalStyle = {
   border: "0.5px solid #eee",
@@ -33,9 +33,13 @@ const Navbar_Landing = () => {
         </nav>
 
         <div className="flex flex-row-reverse items-center gap-5 mr-5 max-sm:hidden">
-          <button className="btn-main">Login</button>
+          <Link to={"/login"}>
+            <button className="btn-main">Login</button>
+          </Link>
 
-          <h1 className="text-md font-bold cursor-pointer">Sign Up</h1>
+          <Link to={"/signup"}>
+            <h1 className="text-md font-bold cursor-pointer">Sign Up</h1>
+          </Link>
         </div>
 
         {/* Mobile */}
@@ -63,13 +67,17 @@ const Navbar_Landing = () => {
         ))}
 
         <div className="flex flex-col gap-2">
-          <button className="bg-(--main-color) hover:bg-(--hover-color) cursor-pointer mt-4 text-white font-bold text-start mx-2 rounded-xl py-3 px-5">
-            Login
-          </button>
+          <Link to={"/login"}>
+            <button className="bg-(--main-color) hover:bg-(--hover-color) cursor-pointer mt-4 text-white font-bold text-start mx-2 rounded-xl py-3 px-5">
+              Login
+            </button>
+          </Link>
 
-          <h1 className="text-md cursor-pointer" style={globalStyle}>
-            Sign Up
-          </h1>
+          <Link to={"/signup"}>
+            <h1 className="text-md cursor-pointer" style={globalStyle}>
+              Sign Up
+            </h1>
+          </Link>
         </div>
       </div>
     </>
