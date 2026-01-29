@@ -1,6 +1,5 @@
 import { Aperture, FileText, Globe, LayoutDashboard } from "lucide-react";
-import CardFeatures from "./cardFeatures";
-
+import CardFeatures from "./CardFeatures";
 const Features = () => {
   const cards = [
     {
