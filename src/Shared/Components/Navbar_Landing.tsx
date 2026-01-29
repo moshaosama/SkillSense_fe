@@ -1,7 +1,7 @@
 import { Menu } from "lucide-react";
 import { useNavbar } from "../Context/Navbar_Links.context";
 import cn from "../../utils/cn";
-import { Link, Links } from "react-router";
+import { Link } from "react-router";
 
 const globalStyle = {
   border: "0.5px solid #eee",
