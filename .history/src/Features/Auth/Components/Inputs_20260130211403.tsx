@@ -1,7 +1,7 @@
 import type { UseFormRegister, FieldError, Path } from "react-hook-form";
 import cn from "../../../utils/cn";
 
-const Inputs = <T extends Record<string, unknown>>({
+const Inputs = <T extends Record<string, any>>({
   label,
   placeholder,
   type,
@@ -14,7 +14,7 @@ const Inputs = <T extends Record<string, unknown>>({
   type: string;
   register: UseFormRegister<T>;
   error?: FieldError;
-  name: Path<T>;
+  name: string;
 }) => {
   return (
     <div className="flex flex-col gap-2 mt-2">
