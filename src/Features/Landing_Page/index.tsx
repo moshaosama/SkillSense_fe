@@ -6,7 +6,9 @@ import Works from "./Components/Works";
 const index = () => {
   return (
     <div className="mt-5">
-      <Hero />
+      <div className="mt-40 max-sm:mt-30">
+        <Hero />
+      </div>
       <Features />
       <Works />
       <Ready />

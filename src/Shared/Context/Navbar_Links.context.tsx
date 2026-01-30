@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, type ReactNode } from "react";
+import { href } from "react-router";
 
 // Define context type
 interface NavbarLinksContextType {
@@ -8,6 +9,7 @@ interface NavbarLinksContextType {
   handleClose: () => void;
   toggleMenu: () => void;
   setLinks: (links: { name: string; href: string }[]) => void;
+  NavLinks: { name: string; href: string }[];
 }
 
 // Create context
@@ -26,13 +28,36 @@ export const Navbar_Links_Provider = ({
     { name: "Pricing", href: "#Pricing" },
   ]);
 
+  const NavLinks = [
+    {
+      name: "Dashboard",
+      href: "/dashboard",
+    },
+    {
+      name: "My Portfolios",
+      href: "/my-portfolio",
+    },
+    {
+      name: "Templates",
+      href: "/templates",
+    },
+  ];
+
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
   const toggleMenu = () => setIsOpen((prev) => !prev);
 
   return (
     <Navbar_Links_Context.Provider
-      value={{ isOpen, links, handleOpen, handleClose, toggleMenu, setLinks }}
+      value={{
+        isOpen,
+        links,
+        handleOpen,
+        handleClose,
+        toggleMenu,
+        setLinks,
+        NavLinks,
+      }}
     >
       {children}
     </Navbar_Links_Context.Provider>

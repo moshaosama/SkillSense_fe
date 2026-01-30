@@ -1,9 +1,16 @@
 import { Github } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Inputs from "./Components/Inputs";
 import SocialButton from "./Components/SocialBtns";
 import Divider from "./Components/Divider";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginSchema, type LoginType } from "./Schema/auth.schema";
+import AuthApi from "./Services/auth.service";
+import { useEffect, useState } from "react";
+import cn from "../../utils/cn";
+import useAuth from "../../Shared/Hooks/useAuth";
 
 const Index = ({
   isBrand,
@@ -16,6 +23,42 @@ const Index = ({
   description: string;
   isSignUp: boolean;
 }) => {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<LoginType>({
+    resolver: zodResolver(LoginSchema),
+  });
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const { isAuthenticated } = useAuth();
+
+  const handleRegister = async (data: LoginType) => {
+    if (data?.user_name) {
+      setLoading(true);
+      await AuthApi.Register(data.user_name, data.email, data.password);
+
+      setTimeout(() => {
+        setLoading(false);
+        navigate("/login");
+      }, 2000);
+    } else {
+      setLoading(true);
+      await AuthApi.Login(data.email, data.password);
+
+      setTimeout(() => {
+        setLoading(false);
+        navigate("/");
+      }, 2000);
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
   return (
     <div className="flex min-h-screen items-center justify-center px-4 sm:px-6">
       <div className="w-full">
@@ -73,25 +116,43 @@ const Index = ({
             text={isSignUp ? "OR CONTINUE WITH EMAIL" : "OR EMAIL LOGIN"}
           />
 
-          <form className="w-full">
+          <form onSubmit={handleSubmit(handleRegister)} className="w-full">
             {isSignUp && (
-              <Inputs label="Full Name" placeholder="Name" type="text" />
+              <Inputs
+                label="Full Name"
+                placeholder="Name"
+                type="text"
+                name="user_name"
+                register={register}
+                error={errors.user_name}
+              />
             )}
 
             <Inputs
               label="Email Address"
               placeholder="name@gmail.com"
               type="email"
+              name="email"
+              register={register}
+              error={errors.email}
             />
 
             <Inputs
               label="Password"
               placeholder="Enter Password"
               type="password"
+              name="password"
+              register={register}
+              error={errors.password}
             />
 
-            <button className="btn-main w-full mt-6">
-              {isSignUp ? "Create Account" : "Login"}
+            <button
+              className={cn(
+                "btn-main w-full mt-6",
+                loading ? "cursor-not-allowed bg-blue-300/80" : "",
+              )}
+            >
+              {loading ? "sending..." : isSignUp ? "Create Account" : "Login"}
             </button>
           </form>
 

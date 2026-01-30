@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 const Hero = () => {
   return (
     <div className="my-16 sm:my-20 px-4 sm:px-10 flex flex-col-reverse lg:flex-row items-center justify-between gap-10">
@@ -13,9 +15,14 @@ const Hero = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center lg:justify-start">
-          <button className="btn-main py-3 sm:py-4 px-6 sm:px-8 text-base sm:text-lg">
-            Analyze your CV
-          </button>
+          <Link
+            to={"/upload-cv"}
+            className="py-3 btn-main sm:py-4 px-6 sm:px-8 text-base sm:text-lg"
+          >
+            <button className="btn-main py-3 sm:py-4 px-6 sm:px-8 text-base sm:text-lg">
+              Analyze your CV
+            </button>
+          </Link>
           <button className="py-3 sm:py-4 px-6 sm:px-8 bg-white border font-semibold border-gray-200 rounded-xl text-base sm:text-lg">
             View Samples
           </button>
