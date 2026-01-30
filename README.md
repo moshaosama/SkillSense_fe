@@ -1,6 +1,6 @@
-<p align="center">
+<!-- <p align="center">
   <img src="assets/logo.png" alt="SkillSense Logo" width="140"/>
-</p>
+</p> -->
 
 <h1 align="center">SkillSense</h1>
 
