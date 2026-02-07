@@ -11,6 +11,7 @@ import AuthApi from "./Services/auth.service";
 import { useEffect, useState } from "react";
 import cn from "../../utils/cn";
 import useAuth from "../../Shared/Hooks/useAuth";
+import { toast } from "react-toastify";
 
 const Index = ({
   isBrand,
@@ -45,18 +46,26 @@ const Index = ({
       }, 2000);
     } else {
       setLoading(true);
-      await AuthApi.Login(data.email, data.password);
+      const response = await AuthApi.Login(data.email, data.password);
+      if(response.success === false) {
+        toast.error(response.message);
+      }else {
+        toast.success("Login successfully");
+        setTimeout(() => {
+          setLoading(false);
+          navigate("/");
+        }, 2000);
+      }
 
-      setTimeout(() => {
-        setLoading(false);
-        navigate("/");
-      }, 2000);
     }
   };
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/");
+      toast.success("Login successfully");
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     }
   }, [isAuthenticated, navigate]);
   return (

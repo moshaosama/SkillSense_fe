@@ -17,3 +17,70 @@ body {
 .btn-main:hover {
   background-color: var(--hover-color);
 }
+
+
+/* container */
+.Toastify__toast-container {
+  padding: 16px;
+}
+
+/* base toast */
+.vyrn-toast {
+  background: rgba(15, 23, 42, 0.85); /* dark glass */
+  backdrop-filter: blur(10px);
+  border-radius: 14px;
+  padding: 14px 16px;
+  min-height: auto;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 20px 40px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+}
+
+/* body */
+.vyrn-toast-body {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #f8fafc;
+}
+
+/* icon */
+.Toastify__toast-icon {
+  width: 22px;
+  height: 22px;
+}
+
+/* success */
+.Toastify__toast--success {
+  border-left: 4px solid #22c55e;
+}
+
+/* error */
+.Toastify__toast--error {
+  border-left: 4px solid #ef4444;
+}
+
+/* warning */
+.Toastify__toast--warning {
+  border-left: 4px solid #facc15;
+}
+
+/* info */
+.Toastify__toast--info {
+  border-left: 4px solid #38bdf8;
+}
+
+/* close icon */
+.Toastify__close-button {
+  color: #94a3b8;
+  opacity: 1;
+}
+
+.Toastify__close-button:hover {
+  color: white;
+}
+
