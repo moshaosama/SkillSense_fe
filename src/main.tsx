@@ -6,18 +6,18 @@ import { ToastContainer } from "react-toastify";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <App />
-<ToastContainer
-  position="bottom-right"
-  autoClose={3000}
-  hideProgressBar
-  closeOnClick
-  pauseOnHover
-  draggable
-  theme="dark"
-  toastClassName="vyrn-toast"
-  bodyClassName="vyrn-toast-body"
-  closeButton={false}
-/>
+    <ToastContainer
+      position="bottom-right"
+      autoClose={3000}
+      hideProgressBar
+      closeOnClick
+      pauseOnHover
+      draggable
+      theme="dark"
+      toastClassName="vyrn-toast"
+      className="vyrn-toast-body"
+      closeButton={false}
+    />
 
   </StrictMode>,
 );
