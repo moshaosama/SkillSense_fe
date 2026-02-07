@@ -2,6 +2,7 @@ import { Link2, Sparkles, Upload, X } from "lucide-react";
 import { useRef, useState } from "react";
 import CV_API from "../Services/CV.services";
 import useAuth from "../../../Shared/Hooks/useAuth";
+import { toast } from "react-toastify";
 
 const UploadBox = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -22,35 +23,29 @@ const UploadBox = () => {
   const handleUpload = async () => {
     setIsLoading(true);
     if (!selectedFile) {
-      alert("Please select a file first!");
+      setIsLoading(false);
+      toast.error("Please select a file first!");
       return;
     }
 
-    // const formData = new FormData();
-    // formData.append("user_id", "1");
-    // formData.append("cv", selectedFile);
 
-    // try {
-    //   const res = await fetch("http://localhost:3000/api/v1/cv/upload", {
-    //     method: "POST",
-    //     body: formData,
-    //   });
-    //   const data = await res.json();
-    //   console.log(data);
-    //   alert("File uploaded successfully!");
-    // } catch (err) {
-    //   console.error(err);
-    //   alert("Upload failed!");
-    // }
+    const data = await CV_API.UploadFile(user?.data?.id as string, selectedFile);
 
-    await CV_API.UploadFile(user?.data?.id as string, selectedFile);
-
-    setTimeout(() => {
+    if(data.success === false) {
       setIsLoading(false);
-
-      setSelectedFile(null);
-      if (fileInputRef.current) fileInputRef.current.value = "";
+      toast.error(data.message);
+      return;
+    }else {
+      
+      setTimeout(() => {
+        setIsLoading(false);
+toast.success("File uploaded successfully!");
+        setSelectedFile(null);
+        if (fileInputRef.current) fileInputRef.current.value = "";
     }, 3000);
+    }
+
+
   };
 
   const handleRemoveFile = () => {

@@ -18,6 +18,8 @@ class AuthApi {
     const data = await response.json();
 
     await localStorage.setItem("user", JSON.stringify(data));
+
+    return data;
   }
 
   static async Register(user_name: string, email: string, password: string) {
