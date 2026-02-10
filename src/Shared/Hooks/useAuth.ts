@@ -20,7 +20,12 @@ const useAuth = () => {
     setLoading(false);
   }, []);
 
-  return { user, isAuthenticated: !!user, loading };
+  const handleLogout = async () => {
+    await localStorage.removeItem("user");
+    await location.reload();
+  };
+
+  return { user, isAuthenticated: !!user, loading, handleLogout };
 };
 
 export default useAuth;
