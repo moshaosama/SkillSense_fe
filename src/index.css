@@ -18,7 +18,6 @@ body {
   background-color: var(--hover-color);
 }
 
-
 /* container */
 .Toastify__toast-container {
   padding: 16px;
@@ -54,7 +53,6 @@ body {
   height: 22px;
 }
 
-/* success */
 .Toastify__toast--success {
   border-left: 4px solid #22c55e;
 }
@@ -83,4 +81,3 @@ body {
 .Toastify__close-button:hover {
   color: white;
 }
-
