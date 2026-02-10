@@ -3,6 +3,7 @@ import { useNavbar } from "../Context/Navbar_Links.context";
 import cn from "../../utils/cn";
 import { Link } from "react-router";
 import useAuth from "../Hooks/useAuth";
+import { useState } from "react";
 
 const globalStyle = {
   border: "0.5px solid #eee",
@@ -14,7 +15,13 @@ const globalStyle = {
 
 const Navbar_Landing = () => {
   const { isOpen, toggleMenu, links } = useNavbar();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, handleLogout } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleMobileMenuToggle = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
     <>
       <div className="fixed top-0 z-50 w-full flex justify-between p-1 items-center bg-white/80">
@@ -35,16 +42,29 @@ const Navbar_Landing = () => {
         </nav>
 
         {isAuthenticated ? (
-          <div className="flex flex-row-reverse bg-gray-200 rounded-4xl p-2 items-center gap-2 mr-5 max-sm:hidden">
-            <div className="flex flex-row-reverse w-full gap-4 justify-between items-center">
-              <h1 className="font-bold">{user?.data?.user_name}</h1>
-              <img
-                src="person.png"
-                alt="Person"
-                className="w-10 h-10 rounded-full object-cover"
-              />
+          <>
+            <div
+              onClick={handleMobileMenuToggle}
+              className="flex flex-row-reverse bg-gray-200 rounded-4xl w-fit p-2 justify-center items-center gap-2 mr-5 max-sm:hidden"
+            >
+              <div className="flex flex-row-reverse w-full gap-4 justify-between items-center">
+                <h1 className="font-bold">{user?.data?.user_name}</h1>
+                <img
+                  src="person.png"
+                  alt="Person"
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              </div>
             </div>
-          </div>
+
+            {isMobileMenuOpen && (
+              <div className="absolute cursor-pointer hover:bg-gray-100 transition-all duration-200 top-16 w-40 right-0 bg-white shadow-lg rounded-md p-4">
+                <h1 className="text-red-500 font-bold " onClick={handleLogout}>
+                  Logout
+                </h1>
+              </div>
+            )}
+          </>
         ) : (
           <div className="flex flex-row-reverse items-center gap-5 mr-5 max-sm:hidden">
             <Link to={"/login"}>
