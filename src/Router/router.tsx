@@ -4,6 +4,7 @@ import Landing_Page from "../Pages/Landing_Page";
 import Login from "../Pages/Login";
 import Sign_Up from "../Pages/Sign_Up";
 import UploadCV from "../Features/Cv_Upload/index";
+import Templates from "../Pages/Templates";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
         path: "/upload-cv",
         element: <UploadCV />,
       },
+      {
+        path: "/templates",
+        element: <Templates/>
+      }
     ],
   },
 ]);

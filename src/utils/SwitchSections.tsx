@@ -1,4 +1,5 @@
 import UploadSections from "../Features/Cv_Upload/Components/UploadSections"
+import ExportSections from "../Features/Final_Export/ExportSections"
 
 const SwitchSections = ({currentSwitch}: {currentSwitch: number}) => {
 
@@ -11,7 +12,7 @@ const SwitchSections = ({currentSwitch}: {currentSwitch: number}) => {
         case 3:
             return null
         case 4:
-            return null
+            return <ExportSections/>
         default:
             return <UploadSections />
     }

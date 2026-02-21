@@ -1,25 +1,20 @@
-import { Github } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
+import { Github } from "lucide-react";
 import { Link, useNavigate } from "react-router";
-import Inputs from "./Components/Inputs";
-import SocialButton from "./Components/SocialBtns";
-import Divider from "./Components/Divider";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema, type LoginType } from "./Schema/auth.schema";
 import AuthApi from "./Services/auth.service";
 import { useEffect, useState } from "react";
-import cn from "../../utils/cn";
 import useAuth from "../../Shared/Hooks/useAuth";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 
-const Index = ({
-  isBrand,
+const AuthForm = ({
   title,
   description,
   isSignUp,
 }: {
-  isBrand: boolean;
   title: string;
   description: string;
   isSignUp: boolean;
@@ -28,9 +23,7 @@ const Index = ({
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<LoginType>({
-    resolver: zodResolver(LoginSchema),
-  });
+  } = useForm<LoginType>({ resolver: zodResolver(LoginSchema) });
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { isAuthenticated } = useAuth();
@@ -39,155 +32,201 @@ const Index = ({
     if (data?.user_name) {
       setLoading(true);
       await AuthApi.Register(data.user_name, data.email, data.password);
-
-      setTimeout(() => {
-        setLoading(false);
-        navigate("/login");
-      }, 2000);
+      setTimeout(() => { setLoading(false); navigate("/login"); }, 2000);
     } else {
       setLoading(true);
       const response = await AuthApi.Login(data.email, data.password);
-      if(response.success === false) {
+      if (response.success === false) {
         toast.error(response.message);
-      }else {
+        setLoading(false);
+      } else {
         toast.success("Login successfully");
-        setTimeout(() => {
-          setLoading(false);
-          navigate("/");
-        }, 2000);
+        setTimeout(() => { setLoading(false); navigate("/"); }, 2000);
       }
-
     }
   };
 
   useEffect(() => {
     if (isAuthenticated) {
-      toast.success("Login successfully");
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
+      toast.success("Already logged in!");
+      setTimeout(() => navigate("/"), 1500);
     }
   }, [isAuthenticated, navigate]);
+
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 sm:px-6">
-      <div className="w-full">
-        {isBrand ? (
-          <div className="flex flex-col items-center justify-center mb-6">
-            <img
-              src="logo.png"
-              alt="logo"
-              className="w-20 h-20 sm:w-24 sm:h-24 object-cover"
-            />
-            <h1 className="text-(--main-color) font-bold text-xl sm:text-2xl -mt-2">
-              SkillSense
-            </h1>
-          </div>
-        ) : (
-          <div className="absolute top-0 left-0 w-full px-4 sm:px-10 py-3 flex items-center justify-between">
-            <img
-              src="logo.png"
-              alt="Logo"
-              className="w-14 h-14 sm:w-20 sm:h-20 object-cover"
-            />
-            <Link to="/">
-              <span className="text-sm sm:text-md font-semibold text-gray-700">
-                Back to homepage
-              </span>
-            </Link>
-          </div>
-        )}
+    <div
+      className="min-h-screen flex items-center justify-center p-4"
+      style={{
+        background: "linear-gradient(135deg, #f8f7ff 0%, #eef2ff 50%, #ede9fe 100%)",
+      }}
+    >
+      {/* Background blobs */}
+      <div className="fixed top-0 left-0 w-full h-full pointer-events-none -z-10">
+        <div
+          className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full blur-[120px] opacity-25"
+          style={{ background: "radial-gradient(circle,#4f46e5,#7c3aed)" }}
+        />
+        <div
+          className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full blur-[100px] opacity-20"
+          style={{ background: "radial-gradient(circle,#a855f7,#4f46e5)" }}
+        />
+      </div>
 
-        <div className="mx-auto bg-white rounded-xl p-6 sm:p-8 w-full max-w-md sm:max-w-lg shadow-sm">
-          <h1 className="text-xl sm:text-2xl font-bold text-center">{title}</h1>
-          <p className="text-gray-400 text-sm sm:text-lg font-semibold text-center mt-1">
-            {description}
-          </p>
-
-          {isSignUp ? (
-            <div className="flex flex-col sm:flex-row gap-3 my-6">
-              <SocialButton icon={<FcGoogle size={20} />} text="Google" />
-              <SocialButton icon={<Github size={20} />} text="Github" />
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="w-full max-w-md"
+      >
+        <div
+          className="rounded-[2.5rem] p-10"
+          style={{
+            background: "rgba(255,255,255,0.88)",
+            backdropFilter: "blur(20px)",
+            border: "1.5px solid rgba(79,70,229,0.12)",
+            boxShadow: "0 24px 80px rgba(79,70,229,0.14)",
+          }}
+        >
+          {/* Brand / Header */}
+          <div className="flex flex-col items-center gap-3 mb-8">
+            <div
+              className="w-14 h-14 rounded-2xl flex items-center justify-center text-white text-2xl font-black shadow-lg"
+              style={{
+                background: "linear-gradient(135deg,#4f46e5,#7c3aed)",
+                boxShadow: "0 6px 24px rgba(79,70,229,0.40)",
+              }}
+            >
+              S
             </div>
-          ) : (
-            <div className="flex flex-col gap-3 my-6">
-              <SocialButton
-                icon={<FcGoogle size={20} />}
-                text="Continue with Google"
-              />
-              <SocialButton
-                icon={<Github size={20} />}
-                text="Continue with Github"
-              />
+            <div className="text-center">
+              <h1 className="text-3xl font-black" style={{ color: "#1e1b4b" }}>{title}</h1>
+              <p className="text-sm font-bold mt-1" style={{ color: "#6b7280" }}>{description}</p>
             </div>
-          )}
+          </div>
 
-          <Divider
-            text={isSignUp ? "OR CONTINUE WITH EMAIL" : "OR EMAIL LOGIN"}
-          />
-
-          <form onSubmit={handleSubmit(handleRegister)} className="w-full">
+          {/* Social Buttons */}
+          <div className={`grid ${isSignUp ? "grid-cols-2" : "grid-cols-1"} gap-3 mb-6`}>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              className="flex items-center justify-center gap-2.5 py-3 px-4 rounded-2xl font-bold text-sm transition-all"
+              style={{
+                border: "1.5px solid rgba(79,70,229,0.12)",
+                color: "#374151",
+                background: "white",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+              }}
+            >
+              <FcGoogle size={20} />
+              {isSignUp ? "Google" : "Continue with Google"}
+            </motion.button>
             {isSignUp && (
-              <Inputs
-                label="Full Name"
-                placeholder="Name"
-                type="text"
-                name="user_name"
-                register={register}
-                error={errors.user_name}
-              />
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                className="flex items-center justify-center gap-2.5 py-3 px-4 rounded-2xl font-bold text-sm transition-all"
+                style={{
+                  border: "1.5px solid rgba(79,70,229,0.12)",
+                  color: "#374151",
+                  background: "white",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                }}
+              >
+                <Github size={20} />
+                GitHub
+              </motion.button>
+            )}
+          </div>
+
+          {/* Divider */}
+          <div className="flex items-center gap-4 mb-6">
+            <div className="flex-1 h-px" style={{ background: "rgba(79,70,229,0.10)" }} />
+            <span className="text-xs font-black uppercase tracking-widest" style={{ color: "#9ca3af" }}>
+              {isSignUp ? "or email" : "or email login"}
+            </span>
+            <div className="flex-1 h-px" style={{ background: "rgba(79,70,229,0.10)" }} />
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit(handleRegister)} className="flex flex-col gap-5">
+            {isSignUp && (
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-black" style={{ color: "#374151" }}>Full Name</label>
+                <input
+                  type="text"
+                  placeholder="Your full name"
+                  className="w-full px-4 py-3.5 rounded-2xl text-sm font-bold outline-none transition-all input-field"
+                  style={{
+                    border: errors.user_name ? "1.5px solid #ef4444" : "1.5px solid rgba(79,70,229,0.15)",
+                    background: "rgba(255,255,255,0.90)",
+                    color: "#1e1b4b",
+                  }}
+                  {...register("user_name")}
+                />
+                {errors.user_name && <span className="text-xs font-bold text-red-500">{errors.user_name.message}</span>}
+              </div>
             )}
 
-            <Inputs
-              label="Email Address"
-              placeholder="name@gmail.com"
-              type="email"
-              name="email"
-              register={register}
-              error={errors.email}
-            />
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-black" style={{ color: "#374151" }}>Email Address</label>
+              <input
+                type="email"
+                placeholder="you@example.com"
+                className="w-full px-4 py-3.5 rounded-2xl text-sm font-bold outline-none transition-all input-field"
+                style={{
+                  border: errors.email ? "1.5px solid #ef4444" : "1.5px solid rgba(79,70,229,0.15)",
+                  background: "rgba(255,255,255,0.90)",
+                  color: "#1e1b4b",
+                }}
+                {...register("email")}
+              />
+              {errors.email && <span className="text-xs font-bold text-red-500">{errors.email.message}</span>}
+            </div>
 
-            <Inputs
-              label="Password"
-              placeholder="Enter Password"
-              type="password"
-              name="password"
-              register={register}
-              error={errors.password}
-            />
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-black" style={{ color: "#374151" }}>Password</label>
+              <input
+                type="password"
+                placeholder="••••••••"
+                className="w-full px-4 py-3.5 rounded-2xl text-sm font-bold outline-none transition-all input-field"
+                style={{
+                  border: errors.password ? "1.5px solid #ef4444" : "1.5px solid rgba(79,70,229,0.15)",
+                  background: "rgba(255,255,255,0.90)",
+                  color: "#1e1b4b",
+                }}
+                {...register("password")}
+              />
+              {errors.password && <span className="text-xs font-bold text-red-500">{errors.password.message}</span>}
+            </div>
 
-            <button
-              className={cn(
-                "btn-main w-full mt-6",
-                loading ? "cursor-not-allowed bg-blue-300/80" : "",
-              )}
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              type="submit"
+              disabled={loading}
+              className="btn-main w-full py-4 text-base mt-2"
+              style={loading ? { opacity: 0.6, cursor: "not-allowed" } : {}}
             >
-              {loading ? "sending..." : isSignUp ? "Create Account" : "Login"}
-            </button>
+              {loading ? "Processing…" : isSignUp ? "Create Account" : "Login"}
+            </motion.button>
           </form>
 
-          <div className="text-center mt-4 text-sm sm:text-base">
+          {/* Footer Link */}
+          <p className="text-center text-sm font-bold mt-6" style={{ color: "#6b7280" }}>
             {isSignUp ? (
-              <>
-                Already have an account?{" "}
-                <Link to="/login">
-                  <span className="text-(--main-color) font-bold">Login</span>
-                </Link>
+              <>Already have an account?{" "}
+                <Link to="/login" className="font-black" style={{ color: "#4f46e5" }}>Login</Link>
               </>
             ) : (
-              <>
-                New here?{" "}
-                <Link to="/signup">
-                  <span className="text-(--main-color) font-bold">
-                    Create an account
-                  </span>
-                </Link>
+              <>New here?{" "}
+                <Link to="/signup" className="font-black" style={{ color: "#4f46e5" }}>Create an account</Link>
               </>
             )}
-          </div>
+          </p>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
 
-export default Index;
+export default AuthForm;

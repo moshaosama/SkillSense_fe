@@ -5,15 +5,16 @@ import Navbar from "../Shared/Components/Navbar";
 
 const Main_Layout = () => {
   const { pathname } = useLocation();
+  const isAuth = pathname === "/login" || pathname === "/signup";
 
   return (
     <div>
-      {pathname === "/login" || pathname === "/signup" ? null : (
+      {!isAuth && (
         <Navbar_Links_Provider>
           {pathname === "/upload-cv" ? <Navbar /> : <Navbar_Landing />}
         </Navbar_Links_Provider>
       )}
-      <div className="my-20">
+      <div className={isAuth ? "" : "pt-0"}>
         <Outlet />
       </div>
     </div>

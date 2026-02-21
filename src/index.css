@@ -1,83 +1,146 @@
 @import "tailwindcss";
 
+@theme {
+  /* ─── Premium Indigo-Violet Palette ─── */
+  --color-brand: #4f46e5;          /* Indigo-600 */
+  --color-brand-light: #818cf8;    /* Indigo-400 */
+  --color-brand-dark: #3730a3;     /* Indigo-800 */
+  --color-accent: #8b5cf6;         /* Violet-500 */
+  --color-accent-light: #c4b5fd;   /* Violet-300 */
+
+  /* ─── Keyframes ─── */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-18px); }
+  }
+}
+
+/* ─── CSS Variables ─── */
 :root {
-  --main-color: #2164c9;
-  --hover-color: #325a97;
+  --main-color: #4f46e5;
+  --hover-color: #3730a3;
+  --glass-bg: rgba(255, 255, 255, 0.72);
 }
 
+/* ─── Base ─── */
 body {
-  background-color: #eee;
+  @apply antialiased overflow-x-hidden;
+  background-color: #ffffff;
+  min-height: 100vh;
+  color: #1e1b4b;
 }
 
+/* ─── Glass Utility ─── */
+.glass {
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  background: rgba(255,255,255,0.75);
+  border: 1px solid rgba(255,255,255,0.45);
+  box-shadow: 0 8px 40px 0 rgba(79,70,229,0.08), 0 1.5px 0 0 rgba(255,255,255,0.7) inset;
+}
+
+/* ─── Primary Button ─── */
 .btn-main {
-  @apply text-white font-bold px-8 py-2 rounded-xl transition-all duration-150 cursor-pointer;
-  background-color: var(--main-color);
-}
-
-.btn-main:hover {
-  background-color: var(--hover-color);
-}
-
-/* container */
-.Toastify__toast-container {
-  padding: 16px;
-}
-
-/* base toast */
-.vyrn-toast {
-  background: rgba(15, 23, 42, 0.85); /* dark glass */
-  backdrop-filter: blur(10px);
-  border-radius: 14px;
-  padding: 14px 16px;
-  min-height: auto;
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 20px 40px rgba(0, 0, 0, 0.4);
-  display: flex;
+  display: inline-flex;
   align-items: center;
-}
-
-/* body */
-.vyrn-toast-body {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #f8fafc;
-}
-
-/* icon */
-.Toastify__toast-icon {
-  width: 22px;
-  height: 22px;
-}
-
-.Toastify__toast--success {
-  border-left: 4px solid #22c55e;
-}
-
-/* error */
-.Toastify__toast--error {
-  border-left: 4px solid #ef4444;
-}
-
-/* warning */
-.Toastify__toast--warning {
-  border-left: 4px solid #facc15;
-}
-
-/* info */
-.Toastify__toast--info {
-  border-left: 4px solid #38bdf8;
-}
-
-/* close icon */
-.Toastify__close-button {
-  color: #94a3b8;
-  opacity: 1;
-}
-
-.Toastify__close-button:hover {
+  justify-content: center;
+  padding: 0.75rem 2rem;
+  border-radius: 1rem;
+  font-weight: 800;
   color: white;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  box-shadow: 0 4px 24px rgba(79,70,229,0.35), 0 1px 2px rgba(79,70,229,0.1);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(.4,0,.2,1);
+  position: relative;
+  overflow: hidden;
+  border: none;
+  outline: none;
+}
+.btn-main::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 60%);
+  border-radius: inherit;
+}
+.btn-main:hover {
+  transform: scale(1.03) translateY(-1px);
+  box-shadow: 0 8px 36px rgba(79,70,229,0.45), 0 1px 2px rgba(79,70,229,0.12);
+}
+.btn-main:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 10px rgba(79,70,229,0.25);
+}
+
+/* ─── Secondary Button ─── */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 2rem;
+  border-radius: 1rem;
+  font-weight: 800;
+  color: #4f46e5;
+  background: white;
+  border: 2px solid rgba(79,70,229,0.15);
+  box-shadow: 0 2px 12px rgba(79,70,229,0.06);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(.4,0,.2,1);
+}
+.btn-secondary:hover {
+  border-color: rgba(79,70,229,0.35);
+  background: rgba(79,70,229,0.04);
+  box-shadow: 0 4px 20px rgba(79,70,229,0.12);
+  transform: scale(1.02) translateY(-1px);
+}
+
+/* ─── Gradient Text ─── */
+.text-gradient {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a855f7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ─── Premium Card ─── */
+.card-premium {
+  background: rgba(255,255,255,0.80);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.60);
+  border-radius: 2rem;
+  box-shadow: 0 4px 24px rgba(79,70,229,0.06), 0 1px 0 rgba(255,255,255,0.8) inset;
+  padding: 2rem;
+  transition: all 0.4s cubic-bezier(.4,0,.2,1);
+}
+.card-premium:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 60px rgba(79,70,229,0.15), 0 1px 0 rgba(255,255,255,0.8) inset;
+  border-color: rgba(79,70,229,0.15);
+}
+
+/* ─── Toastify Overrides ─── */
+.Toastify__toast {
+  background: rgba(255,255,255,0.90) !important;
+  backdrop-filter: blur(16px) !important;
+  border-radius: 1.25rem !important;
+  border: 1px solid rgba(255,255,255,0.6) !important;
+  box-shadow: 0 8px 32px rgba(79,70,229,0.12) !important;
+  color: #1e1b4b !important;
+  font-weight: 700 !important;
+}
+.Toastify__toast--success {
+  border-left: 4px solid #22c55e !important;
+}
+.Toastify__toast--error {
+  border-left: 4px solid #ef4444 !important;
+}
+
+/* ─── Input Focus Ring ─── */
+.input-field:focus {
+  border-color: #4f46e5 !important;
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.12);
 }
