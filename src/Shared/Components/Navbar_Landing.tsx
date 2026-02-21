@@ -1,120 +1,231 @@
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useNavbar } from "../Context/Navbar_Links.context";
 import cn from "../../utils/cn";
 import { Link } from "react-router";
 import useAuth from "../Hooks/useAuth";
-import { useState } from "react";
-
-const globalStyle = {
-  border: "0.5px solid #eee",
-  borderRadius: "0.75rem",
-  margin: "0 10px",
-  padding: "13px 5px",
-  fontWeight: "bold",
-};
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar_Landing = () => {
-  const { isOpen, toggleMenu, links } = useNavbar();
+  const { isOpen, toggleMenu } = useNavbar();
   const { user, isAuthenticated, handleLogout } = useAuth();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
 
-  const handleMobileMenuToggle = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 30);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <>
-      <div className="fixed top-0 z-50 w-full flex justify-between p-1 items-center bg-white/80">
-        <div className="flex items-center cursor-pointer">
-          <img
-            src="/logo.png"
-            alt="Logo"
-            className="w-16 h-16 object-cover"
-            loading="lazy"
-          />
-          <h1 className="text-xl text-(--main-color) font-bold">SkillSense</h1>
+      <motion.header
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 120, damping: 20 }}
+        className="fixed top-0 left-0 right-0 z-50"
+      >
+        {/* ─── Main bar ─── */}
+        <div
+          className={cn(
+            "transition-all duration-500",
+            scrolled ? "py-2 px-4" : "py-4 px-6"
+          )}
+        >
+          <div
+            className={cn(
+              "container mx-auto flex items-center justify-between transition-all duration-500",
+              scrolled ? "rounded-2xl px-6 py-3" : "px-0"
+            )}
+            style={
+              scrolled
+                ? {
+                    background: "rgba(255,255,255,0.92)",
+                    backdropFilter: "blur(24px)",
+                    WebkitBackdropFilter: "blur(24px)",
+                    border: "1px solid rgba(79,70,229,0.10)",
+                    boxShadow: "0 4px 30px rgba(79,70,229,0.10)",
+                  }
+                : undefined
+            }
+          >
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-3 group shrink-0">
+              <motion.div
+                whileHover={{ rotate: 8, scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
+                className="w-10 h-10 rounded-2xl flex items-center justify-center text-white text-lg font-black shadow-lg"
+                style={{
+                  background: "linear-gradient(135deg,#4f46e5,#7c3aed)",
+                  boxShadow: "0 4px 14px rgba(79,70,229,0.40)",
+                }}
+              >
+                S
+              </motion.div>
+              <div>
+                <p className="text-xl font-black tracking-tight leading-none" style={{ color: "#1e1b4b" }}>
+                  SkillSense
+                </p>
+                <p className="text-[9px] font-black uppercase tracking-[0.22em] leading-none mt-0.5" style={{ color: "#4f46e5" }}>
+                  AI Career Suite
+                </p>
+              </div>
+            </Link>
+
+            {/* Desktop links */}
+            <nav className="hidden lg:flex items-center gap-10">
+              {["Features", "How it works", "Pricing"].map((label) => (
+                <button
+                  key={label}
+                  className="text-sm font-bold transition-colors hover:text-indigo-600 relative group"
+                  style={{ color: "#6b7280", background: "none", border: "none", cursor: "pointer" }}
+                >
+                  {label}
+                  <motion.span
+                    className="absolute -bottom-0.5 left-0 h-0.5 rounded-full"
+                    style={{ background: "linear-gradient(90deg,#4f46e5,#7c3aed)" }}
+                    initial={{ width: 0 }}
+                    whileHover={{ width: "100%" }}
+                    transition={{ duration: 0.25 }}
+                  />
+                </button>
+              ))}
+            </nav>
+
+            {/* Auth area */}
+            <div className="flex items-center gap-4">
+              {isAuthenticated ? (
+                <div className="relative">
+                  <motion.button
+                    whileHover={{ scale: 1.04 }}
+                    onClick={() => setProfileOpen(!profileOpen)}
+                    className="flex items-center gap-3 pl-1.5 pr-4 py-1.5 rounded-full transition-all"
+                    style={{
+                      background: "rgba(79,70,229,0.07)",
+                      border: "1px solid rgba(79,70,229,0.15)",
+                    }}
+                  >
+                    <img
+                      src="person.png"
+                      alt="User"
+                      className="w-8 h-8 rounded-full border-2 border-white object-cover shadow"
+                    />
+                    <span className="hidden sm:inline text-sm font-black" style={{ color: "#1e1b4b" }}>
+                      {user?.data?.user_name?.split(" ")[0]}
+                    </span>
+                  </motion.button>
+
+                  <AnimatePresence>
+                    {profileOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                        transition={{ duration: 0.18 }}
+                        className="absolute top-full right-0 mt-3 w-44 rounded-2xl overflow-hidden p-2 z-50"
+                        style={{
+                          background: "rgba(255,255,255,0.97)",
+                          backdropFilter: "blur(16px)",
+                          border: "1px solid rgba(79,70,229,0.10)",
+                          boxShadow: "0 16px 48px rgba(79,70,229,0.15)",
+                        }}
+                      >
+                        <button
+                          onClick={handleLogout}
+                          className="w-full text-left px-4 py-3 text-sm font-black rounded-xl transition-colors flex items-center gap-2 text-red-500 hover:bg-red-50"
+                        >
+                          <X size={15} />
+                          Logout
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <div className="hidden sm:flex items-center gap-4">
+                  <Link
+                    to="/login"
+                    className="text-sm font-black transition-colors"
+                    style={{ color: "#6b7280" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "#4f46e5")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "#6b7280")}
+                  >
+                    Login
+                  </Link>
+                  <Link to="/signup" className="btn-main text-sm px-7 py-2.5">
+                    Get Started Free
+                  </Link>
+                </div>
+              )}
+
+              {/* Hamburger */}
+              <motion.button
+                whileTap={{ scale: 0.88 }}
+                onClick={toggleMenu}
+                className="lg:hidden p-2.5 rounded-2xl transition-colors"
+                style={{
+                  background: "rgba(79,70,229,0.08)",
+                  border: "1px solid rgba(79,70,229,0.14)",
+                  color: "#4f46e5",
+                }}
+              >
+                {isOpen ? <X size={22} /> : <Menu size={22} />}
+              </motion.button>
+            </div>
+          </div>
         </div>
+      </motion.header>
 
-        <nav className="flex gap-12 text-md font-semibold max-sm:hidden">
-          <h1 className="cursor-pointer">Features</h1>
-          <h1 className="cursor-pointer">How it works</h1>
-          <h1 className="cursor-pointer">Pricing</h1>
-        </nav>
-
-        {isAuthenticated ? (
-          <>
+      {/* ─── Mobile Drawer ─── */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.22 }}
+            className="fixed top-[72px] left-4 right-4 z-40 lg:hidden"
+          >
             <div
-              onClick={handleMobileMenuToggle}
-              className="flex flex-row-reverse bg-gray-200 rounded-4xl w-fit p-2 justify-center items-center gap-2 mr-5 max-sm:hidden"
+              className="rounded-[2rem] p-8"
+              style={{
+                background: "rgba(255,255,255,0.97)",
+                backdropFilter: "blur(24px)",
+                WebkitBackdropFilter: "blur(24px)",
+                border: "1px solid rgba(79,70,229,0.10)",
+                boxShadow: "0 20px 60px rgba(79,70,229,0.15)",
+              }}
             >
-              <div className="flex flex-row-reverse w-full gap-4 justify-between items-center">
-                <h1 className="font-bold">{user?.data?.user_name}</h1>
-                <img
-                  src="person.png"
-                  alt="Person"
-                  className="w-10 h-10 rounded-full object-cover"
-                />
+              <div className="flex flex-col gap-5">
+                {["Features", "How it works", "Pricing"].map((label) => (
+                  <button
+                    key={label}
+                    className="text-xl font-black text-left transition-colors hover:text-indigo-600"
+                    style={{ color: "#1e1b4b", background: "none", border: "none", cursor: "pointer" }}
+                    onClick={toggleMenu}
+                  >
+                    {label}
+                  </button>
+                ))}
+
+                <div className="h-px" style={{ background: "rgba(79,70,229,0.10)" }} />
+
+                {!isAuthenticated && (
+                  <div className="flex flex-col gap-3">
+                    <Link to="/login" onClick={toggleMenu} className="btn-secondary w-full text-center">
+                      Login
+                    </Link>
+                    <Link to="/signup" onClick={toggleMenu} className="btn-main w-full text-center">
+                      Get Started Free
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
-
-            {isMobileMenuOpen && (
-              <div className="absolute cursor-pointer hover:bg-gray-100 transition-all duration-200 top-16 w-40 right-0 bg-white shadow-lg rounded-md p-4">
-                <h1 className="text-red-500 font-bold " onClick={handleLogout}>
-                  Logout
-                </h1>
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="flex flex-row-reverse items-center gap-5 mr-5 max-sm:hidden">
-            <Link to={"/login"}>
-              <button className="btn-main">Login</button>
-            </Link>
-
-            <Link to={"/signup"}>
-              <h1 className="text-md font-bold cursor-pointer">Sign Up</h1>
-            </Link>
-          </div>
+          </motion.div>
         )}
-
-        {/* Mobile */}
-
-        <div className="mr-3 sm:hidden">
-          <Menu strokeWidth={2.75} onClick={toggleMenu} />
-        </div>
-      </div>
-
-      <div
-        className={cn(
-          "bg-white/80 fixed w-full top-18 py-3 flex flex-col gap-2 overflow-hidden sm:hidden transition-all duration-500 ease-in-out",
-          isOpen ? "opacity-100 max-h-96" : "opacity-0 max-h-0",
-        )}
-      >
-        {links?.map((links) => (
-          <Link
-            to={links.href}
-            key={links.name}
-            className=" my-2"
-            style={globalStyle}
-          >
-            <h1>{links.name}</h1>
-          </Link>
-        ))}
-
-        <div className="flex flex-col gap-2">
-          <Link to={"/login"}>
-            <button className="bg-(--main-color)  hover:bg-(--hover-color) cursor-pointer mt-4 text-white font-bold text-start mx-2 rounded-xl py-3 px-5">
-              Login
-            </button>
-          </Link>
-
-          <Link to={"/signup"}>
-            <h1 className="text-md cursor-pointer" style={globalStyle}>
-              Sign Up
-            </h1>
-          </Link>
-        </div>
-      </div>
+      </AnimatePresence>
     </>
   );
 };

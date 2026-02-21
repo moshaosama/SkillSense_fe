@@ -2,14 +2,11 @@ import SignUpForm from "../Features/Auth/index";
 
 const Sign_Up = () => {
   return (
-    <div>
-      <SignUpForm
-        isBrand={false}
-        title="Create your account"
-        description="Join 10,000+ tech professionals"
-        isSignUp={true}
-      />
-    </div>
+    <SignUpForm
+      title="Create Account"
+      description="Join 10,000+ tech professionals today"
+      isSignUp={true}
+    />
   );
 };
 
