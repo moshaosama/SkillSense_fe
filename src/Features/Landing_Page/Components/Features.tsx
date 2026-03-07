@@ -32,6 +32,7 @@ const Features = () => {
 
   return (
     <section
+      id="features"
       className="relative py-28 px-6 overflow-hidden"
       style={{ background: "linear-gradient(180deg, #f8f7ff 0%, #eef2ff 100%)" }}
     >

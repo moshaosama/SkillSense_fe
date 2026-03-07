@@ -89,7 +89,10 @@ function Index() {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <SwitchSections currentSwitch={currentStep} />
+            <SwitchSections 
+              currentSwitch={currentStep} 
+              onNext={() => setCurrentStep((prev) => Math.min(prev + 1, steps.length))}
+            />
           </motion.div>
         </AnimatePresence>
       </div>

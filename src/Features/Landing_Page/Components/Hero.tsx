@@ -4,22 +4,31 @@ import { motion } from "framer-motion";
 
 const Hero = () => {
   return (
-    <section className="relative pt-36 pb-20 lg:pt-52 lg:pb-32 overflow-hidden bg-white">
-      {/* Decorative blobs — pushed down so they don't bleed into navbar */}
+    <section className="relative pt-24 pb-20 lg:pt-36 lg:pb-32 overflow-hidden bg-white">
+      {/* Subtle Grid Background */}
+      <div 
+        className="absolute inset-0 z-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `radial-gradient(#4f46e5 0.5px, transparent 0.5px), radial-gradient(#4f46e5 0.5px, transparent 0.5px)`,
+          backgroundSize: "40px 40px",
+          backgroundPosition: "0 0, 20px 20px",
+        }}
+      />
+
+      {/* Decorative blobs — repositioned for better fill */}
       <div
-        className="absolute top-1/3 -left-32 w-[500px] h-[500px] rounded-full blur-[130px] opacity-20 -z-10"
+        className="absolute top-10 -left-20 w-[600px] h-[600px] rounded-full blur-[120px] opacity-20 -z-10 animate-pulse"
         style={{ background: "radial-gradient(circle, #4f46e5, #7c3aed)" }}
       />
       <div
-        className="absolute bottom-0 -right-32 w-[400px] h-[400px] rounded-full blur-[110px] opacity-15 -z-10"
+        className="absolute -bottom-20 -right-20 w-[500px] h-[500px] rounded-full blur-[100px] opacity-15 -z-10"
         style={{ background: "radial-gradient(circle, #a855f7, #4f46e5)" }}
       />
 
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-20">
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           {/* ── Left Content ── */}
-          <div className="flex-1 text-center lg:text-left space-y-10 max-w-2xl mx-auto lg:mx-0">
-
+          <div className="flex-1 text-center lg:text-left space-y-8 max-w-2xl mx-auto lg:mx-0">
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -39,7 +48,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.65, delay: 0.1 }}
-              className="text-5xl sm:text-6xl lg:text-[5.5rem] font-black tracking-tight leading-[0.93]"
+              className="text-5xl sm:text-7xl lg:text-[5.8rem] font-extrabold tracking-tight leading-[0.93]"
               style={{ color: "#1e1b4b" }}
             >
               Land Your <br />
@@ -51,7 +60,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-lg lg:text-xl font-medium leading-relaxed"
+              className="text-lg lg:text-xl font-medium leading-relaxed max-w-xl mx-auto lg:mx-0"
               style={{ color: "#6b7280" }}
             >
               SkillSense uses advanced AI to optimize your CV for ATS, instantly
@@ -63,21 +72,21 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2"
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
             >
-              <Link to="/upload-cv" className="btn-main group h-15 px-10 text-base w-full sm:w-auto">
+              <Link to="/upload-cv" className="btn-main group h-14 px-10 text-base w-full sm:w-auto flex items-center justify-center">
                 Analyze My CV <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
               </Link>
-              <button className="btn-secondary h-15 px-10 text-base w-full sm:w-auto">
+              <Link to="/templates" className="btn-secondary h-14 px-10 text-base w-full sm:w-auto flex items-center justify-center border-2 border-slate-100 hover:border-indigo-100">
                 View Showcase
-              </button>
+              </Link>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.55 }}
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-8 pt-4"
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-8 pt-2"
             >
               {[
                 { icon: CheckCircle2, label: "ATS Optimized" },
@@ -94,56 +103,57 @@ const Hero = () => {
 
           {/* ── Right Visual ── */}
           <motion.div
-            initial={{ opacity: 0, x: 60 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, scale: 0.95, x: 20 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 0.85, delay: 0.25 }}
-            className="flex-1 relative w-full max-w-2xl"
+            className="flex-1 relative w-full lg:max-w-xl"
           >
-            {/* Glowing halo */}
+            {/* Multi-layered glow */}
             <div
-              className="absolute inset-0 rounded-[3rem] blur-3xl -z-10 scale-95"
-              style={{ background: "linear-gradient(135deg, rgba(79,70,229,0.25), rgba(139,92,246,0.20))" }}
+              className="absolute inset-0 rounded-[3rem] blur-3xl -z-10 scale-105 opacity-50"
+              style={{ background: "linear-gradient(135deg, rgba(79,70,229,0.3), rgba(139,92,246,0.2))" }}
             />
 
             <div
-              className="relative glass rounded-[2.5rem] p-4 overflow-hidden"
+              className="relative glass rounded-[2.5rem] p-3 overflow-hidden"
               style={{
-                border: "1.5px solid rgba(79,70,229,0.12)",
-                boxShadow: "0 30px 80px rgba(79,70,229,0.18)"
+                border: "1px solid rgba(79,70,229,0.15)",
+                boxShadow: "0 40px 100px rgba(79,70,229,0.22)"
               }}
             >
               <img
                 src="dashboard.png"
                 alt="SkillSense Dashboard"
-                className="w-full h-auto rounded-[1.75rem]"
+                className="w-full h-auto rounded-[1.8rem]"
                 loading="lazy"
               />
 
-              {/* Floating badge */}
+              {/* Floating badge - refined */}
               <motion.div
                 animate={{ y: [0, -12, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute bottom-8 -right-6 lg:-right-12 glass rounded-3xl p-5 hidden md:flex items-center gap-4"
+                className="absolute bottom-8 -right-6 lg:-right-10 glass rounded-3xl p-5 hidden md:flex items-center gap-4"
                 style={{
-                  border: "1.5px solid rgba(79,70,229,0.12)",
-                  boxShadow: "0 16px 48px rgba(79,70,229,0.15)",
-                  minWidth: 220
+                  border: "1.5px solid rgba(255,255,255,0.7)",
+                  boxShadow: "0 20px 50px rgba(79,70,229,0.2)",
+                  minWidth: 220,
+                  backdropFilter: "blur(20px)"
                 }}
               >
                 <div
-                  className="w-12 h-12 rounded-2xl flex items-center justify-center text-xl"
-                  style={{ background: "linear-gradient(135deg,#4f46e5,#7c3aed)", boxShadow: "0 4px 16px rgba(79,70,229,0.4)" }}
+                  className="w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-lg"
+                  style={{ background: "linear-gradient(135deg,#4f46e5,#7c3aed)" }}
                 >
                   ✨
                 </div>
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-widest mb-0.5" style={{ color: "#9ca3af" }}>
+                  <p className="text-[10px] font-black uppercase tracking-widest mb-0.5 text-indigo-400">
                     AI Insight
                   </p>
-                  <p className="text-sm font-black" style={{ color: "#1e1b4b" }}>
+                  <p className="text-sm font-black text-slate-900">
                     98% Match Found
                   </p>
-                  <p className="text-xs font-bold" style={{ color: "#6b7280" }}>
+                  <p className="text-xs font-bold text-slate-500">
                     Senior SWE roles
                   </p>
                 </div>
