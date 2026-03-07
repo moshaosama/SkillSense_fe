@@ -109,7 +109,7 @@ const Navbar_Landing = () => {
                     }}
                   >
                     <img
-                      src={user?.data?.avatar ? (user.data.avatar.startsWith('/') ? `https://skillsensebeproduction.up.railway.app${user.data.avatar}` : user.data.avatar) : "/person.png"}
+                      src={user?.data?.avatar ? (user.data.avatar.startsWith('/') ? `https://skillsensebe-production.up.railway.app${user.data.avatar}` : user.data.avatar) : "/person.png"}
                       alt="User"
                       className="w-8 h-8 rounded-full border-2 border-white object-cover shadow"
                     />

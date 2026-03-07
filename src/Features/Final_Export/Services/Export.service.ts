@@ -1,7 +1,7 @@
 // Services/Export.service.ts
 import axios from "axios";
 
-const API_URL = "https://skillsensebeproduction.up.railway.app";
+const API_URL = "https://skillsensebe-production.up.railway.app";
 
 class ExportService {
   static async CreateAutomation(

@@ -98,7 +98,7 @@ const ProfileFeature = () => {
                   <img src={avatarPreview} alt="Preview" className="w-full h-full object-cover" />
                 ) : user?.data?.avatar ? (
                   <img 
-                    src={user.data.avatar.startsWith('/') ? `https://skillsensebeproduction.up.railway.app${user.data.avatar}` : user.data.avatar} 
+                    src={user.data.avatar.startsWith('/') ? `https://skillsensebe-production.up.railway.app${user.data.avatar}` : user.data.avatar} 
                     alt="Avatar" 
                     className="w-full h-full object-cover" 
                   />

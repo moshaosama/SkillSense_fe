@@ -4,7 +4,7 @@ class AuthApi {
       throw new Error("data is required");
     }
 
-    const response = await fetch("https://skillsensebeproduction.up.railway.app/api/v1/auth/login", {
+    const response = await fetch("https://skillsensebe-production.up.railway.app/api/v1/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,7 +35,7 @@ class AuthApi {
       formData.append("avatar", avatar);
     }
 
-    const response = await fetch("https://skillsensebeproduction.up.railway.app/api/v1/auth/register", {
+    const response = await fetch("https://skillsensebe-production.up.railway.app/api/v1/auth/register", {
       method: "POST",
       body: formData,
     });
@@ -49,7 +49,7 @@ class AuthApi {
       throw new Error("data is required");
     }
 
-    const response = await fetch("https://skillsensebeproduction.up.railway.app/api/v1/auth/google-login", {
+    const response = await fetch("https://skillsensebe-production.up.railway.app/api/v1/auth/google-login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -85,7 +85,7 @@ class AuthApi {
       formData.append("avatar", avatar);
     }
 
-    const response = await fetch("https://skillsensebeproduction.up.railway.app/api/v1/auth/update", {
+    const response = await fetch("https://skillsensebe-production.up.railway.app/api/v1/auth/update", {
       method: "PUT",
       body: formData,
     });
