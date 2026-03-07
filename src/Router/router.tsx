@@ -5,6 +5,13 @@ import Login from "../Pages/Login";
 import Sign_Up from "../Pages/Sign_Up";
 import UploadCV from "../Features/Cv_Upload/index";
 import Templates from "../Pages/Templates";
+import Dashboard_Page from "../Pages/Dashboard_Page";
+import ComingSoon from "../Pages/ComingSoon";
+import Profile_Page from "../Pages/Profile_Page";
+import PrivacyPolicy from "../Pages/Legal/PrivacyPolicy";
+import TermsOfService from "../Pages/Legal/TermsOfService";
+import CookiePolicy from "../Pages/Legal/CookiePolicy";
+import RefundPolicy from "../Pages/Legal/RefundPolicy";
 
 const router = createBrowserRouter([
   {
@@ -30,10 +37,55 @@ const router = createBrowserRouter([
       {
         path: "/templates",
         element: <Templates/>
+      },
+      {
+        path: "/dashboard",
+        element: <Dashboard_Page />
+      },
+      {
+        path: "/my-portfolio",
+        element: <ComingSoon />
+      },
+      {
+        path: "/analysis",
+        element: <ComingSoon />
+      },
+      {
+        path: "/settings",
+        element: <ComingSoon />
+      },
+      {
+        path: "/profile",
+        element: <Profile_Page />
+      },
+      {
+        path: "/privacy-policy",
+        element: <PrivacyPolicy />
+      },
+      {
+        path: "/terms-of-service",
+        element: <TermsOfService />
+      },
+      {
+        path: "/cookie-policy",
+        element: <CookiePolicy />
+      },
+      {
+        path: "/refund-policy",
+        element: <RefundPolicy />
       }
     ],
   },
-]);
+],
+{
+  future: {
+    v7_relativeSplatPath: true,
+    v7_fetcherPersist: true,
+    v7_normalizeFormMethod: true,
+    v7_partialHydration: true,
+    v7_skipActionErrorRevalidation: true,
+  },
+});
 
 const Router_Pages = () => {
   return <RouterProvider router={router} />;

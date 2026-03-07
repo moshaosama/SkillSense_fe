@@ -21,8 +21,9 @@ const useAuth = () => {
   }, []);
 
   const handleLogout = async () => {
-    await localStorage.removeItem("user");
-    await location.reload();
+    localStorage.removeItem("user");
+    localStorage.removeItem("is_premium"); // Also clear premium status
+    window.location.href = "/";
   };
 
   return { user, isAuthenticated: !!user, loading, handleLogout };

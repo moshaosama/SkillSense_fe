@@ -1,17 +1,37 @@
-import { Link2, Sparkles, Upload, X, FileText, CheckCircle2 } from "lucide-react";
-import { useRef, useState } from "react";
+import { Link2, Sparkles, Upload, X, FileText, CheckCircle2, Code2 } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
 import CV_API from "../Services/CV.services";
 import useAuth from "../../../Shared/Hooks/useAuth";
 import { toast } from "react-toastify";
 import { motion, AnimatePresence } from "framer-motion";
+import { createPortal } from "react-dom";
 
-const UploadBox = () => {
+const loadingSteps = [
+  { text: "Uploading CV...", icon: <Upload size={24} className="text-indigo-500" /> },
+  { text: "Extracting Text...", icon: <FileText size={24} className="text-purple-500" /> },
+  { text: "AI Analyzing Skills...", icon: <Sparkles size={24} className="text-pink-500" /> },
+  { text: "Generating Profile...", icon: <Code2 size={24} className="text-indigo-500" /> },
+  { text: "Finalizing...", icon: <CheckCircle2 size={24} className="text-blue-500" /> }
+];
+
+const UploadBox = ({ onNext }: { onNext: () => void }) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingStage, setLoadingStage] = useState(0);
   const [linkedinUrl, setLinkedinUrl] = useState("");
+
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
+    if (isLoading) {
+      interval = setInterval(() => {
+        setLoadingStage((prev) => (prev < loadingSteps.length - 2 ? prev + 1 : prev));
+      }, 2500);
+    }
+    return () => clearInterval(interval);
+  }, [isLoading]);
 
   const handleBrowseClick = () => fileInputRef.current?.click();
 
@@ -33,17 +53,29 @@ const UploadBox = () => {
       return;
     }
     setIsLoading(true);
-    const data = await CV_API.UploadFile(user?.data?.id as string, selectedFile);
-    if (data.success === false) {
-      setIsLoading(false);
-      toast.error(data.message);
-    } else {
-      setTimeout(() => {
+    setLoadingStage(0);
+    try {
+      const data = await CV_API.UploadFile(user?.data?.id as string, selectedFile);
+      if (data.success === false) {
         setIsLoading(false);
-        toast.success("File uploaded successfully!");
-        setSelectedFile(null);
-        if (fileInputRef.current) fileInputRef.current.value = "";
-      }, 3000);
+        setLoadingStage(0);
+        toast.error(data.message);
+      } else {
+        setLoadingStage(loadingSteps.length - 1);
+          setTimeout(() => {
+            setIsLoading(false);
+            setLoadingStage(0);
+            toast.success("File uploaded successfully!");
+            setSelectedFile(null);
+            if (fileInputRef.current) fileInputRef.current.value = "";
+            onNext(); // Advance to Analyze step
+          }, 1500);
+      }
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+      setLoadingStage(0);
+      toast.error("An error occurred during upload.");
     }
   };
 
@@ -197,21 +229,110 @@ const UploadBox = () => {
         className="btn-main w-full py-5 text-base gap-2 mt-2"
         style={isLoading ? { opacity: 0.7, cursor: "not-allowed" } : {}}
       >
-        {isLoading ? (
-          <>
-            <svg className="animate-spin w-5 h-5 text-white" viewBox="0 0 24 24" fill="none">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="white" strokeWidth="4"/>
-              <path className="opacity-75" fill="white" d="M4 12a8 8 0 018-8v8z"/>
-            </svg>
-            Analyzing your CV...
-          </>
-        ) : (
-          <>
-            Start AI Analysis
-            <Sparkles size={20} />
-          </>
-        )}
+        <>
+          Start AI Analysis
+          <Sparkles size={20} />
+        </>
       </motion.button>
+
+      {/* Modern Processing Loading Modal */}
+      {createPortal(
+        <AnimatePresence>
+          {isLoading && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 20, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              className="bg-white rounded-4xl p-8 max-w-sm w-full flex flex-col items-center justify-center text-center relative overflow-hidden"
+              style={{
+                boxShadow: "0 25px 60px rgba(79, 70, 229, 0.25)",
+                border: "1.5px solid rgba(79, 70, 229, 0.1)",
+              }}
+            >
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+              <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style={{ animationDelay: "1s" }}></div>
+
+              <div className="relative z-10 flex flex-col items-center w-full">
+                <div className="w-24 h-24 mb-6 relative flex items-center justify-center">
+                  <svg className="absolute inset-0 w-full h-full text-indigo-50" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" strokeWidth="8" />
+                  </svg>
+                  <motion.svg
+                    className="absolute inset-0 w-full h-full text-indigo-500 drop-shadow-lg"
+                    viewBox="0 0 100 100"
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, ease: "linear", duration: 2 }}
+                    style={{ transformOrigin: "center" }}
+                  >
+                    <circle
+                      cx="50" cy="50" r="46" fill="none"
+                      stroke="currentColor" strokeWidth="8"
+                      strokeDasharray="290"
+                      strokeDashoffset={loadingStage === loadingSteps.length - 1 ? 0 : 220}
+                      strokeLinecap="round"
+                      style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }}
+                    />
+                  </motion.svg>
+                  <div className="absolute z-20 flex items-center justify-center">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={loadingStage}
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.5 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {loadingSteps[loadingStage].icon}
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
+                </div>
+
+                <h3 className="text-2xl font-black text-gray-900 mb-2">Processing</h3>
+
+                <div className="h-6 mb-6 overflow-hidden flex items-center justify-center relative w-full">
+                  <AnimatePresence mode="wait">
+                    <motion.p
+                      key={loadingStage}
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -15 }}
+                      transition={{ duration: 0.3 }}
+                      className="text-gray-500 font-bold absolute text-sm"
+                    >
+                      {loadingSteps[loadingStage].text}
+                    </motion.p>
+                  </AnimatePresence>
+                </div>
+
+                <div className="flex gap-2 w-full justify-center">
+                  {loadingSteps.map((_, idx) => (
+                    <motion.div
+                      key={idx}
+                      className="h-1.5 rounded-full"
+                      initial={false}
+                      animate={{
+                        width: idx === loadingStage ? 24 : 8,
+                        backgroundColor: idx <= loadingStage ? "#4f46e5" : "#e5e7eb",
+                      }}
+                      transition={{ duration: 0.4 }}
+                    />
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   );
 };

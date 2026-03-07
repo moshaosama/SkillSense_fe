@@ -1,4 +1,4 @@
-import { Menu, X } from "lucide-react";
+import { Menu, X, Layout, User as UserIcon } from "lucide-react";
 import { useNavbar } from "../Context/Navbar_Links.context";
 import cn from "../../utils/cn";
 import { Link } from "react-router";
@@ -75,8 +75,9 @@ const Navbar_Landing = () => {
 
             {/* Desktop links */}
             <nav className="hidden lg:flex items-center gap-10">
-              {["Features", "How it works", "Pricing"].map((label) => (
-                <button
+              {["Features", "How it works", "Pricing", "Contact Us"].map((label) => (
+                <a key={label} href={`/#${label.toLowerCase().replace(" ", "-")}`}>
+                  <button
                   key={label}
                   className="text-sm font-bold transition-colors hover:text-indigo-600 relative group"
                   style={{ color: "#6b7280", background: "none", border: "none", cursor: "pointer" }}
@@ -90,6 +91,7 @@ const Navbar_Landing = () => {
                     transition={{ duration: 0.25 }}
                   />
                 </button>
+                </a>
               ))}
             </nav>
 
@@ -107,12 +109,12 @@ const Navbar_Landing = () => {
                     }}
                   >
                     <img
-                      src="person.png"
+                      src={user?.data?.avatar ? (user.data.avatar.startsWith('/') ? `https://skillsensebeproduction.up.railway.app${user.data.avatar}` : user.data.avatar) : "/person.png"}
                       alt="User"
                       className="w-8 h-8 rounded-full border-2 border-white object-cover shadow"
                     />
                     <span className="hidden sm:inline text-sm font-black" style={{ color: "#1e1b4b" }}>
-                      {user?.data?.user_name?.split(" ")[0]}
+                      {user?.data?.user_name}
                     </span>
                   </motion.button>
 
@@ -131,6 +133,24 @@ const Navbar_Landing = () => {
                           boxShadow: "0 16px 48px rgba(79,70,229,0.15)",
                         }}
                       >
+                        <Link
+                          to="/profile"
+                          onClick={() => setProfileOpen(false)}
+                          className="w-full text-left px-4 py-3 text-sm font-black rounded-xl transition-colors flex items-center gap-2 text-slate-700 hover:bg-slate-50"
+                        >
+                          <UserIcon size={15} />
+                          Profile
+                        </Link>
+
+                        <Link
+                          to="/dashboard"
+                          onClick={() => setProfileOpen(false)}
+                          className="w-full text-left px-4 py-3 text-sm font-black rounded-xl transition-colors flex items-center gap-2 text-slate-700 hover:bg-slate-50"
+                        >
+                          <Layout size={15} />
+                          Dashboard
+                        </Link>
+
                         <button
                           onClick={handleLogout}
                           className="w-full text-left px-4 py-3 text-sm font-black rounded-xl transition-colors flex items-center gap-2 text-red-500 hover:bg-red-50"
@@ -198,8 +218,9 @@ const Navbar_Landing = () => {
               }}
             >
               <div className="flex flex-col gap-5">
-                {["Features", "How it works", "Pricing"].map((label) => (
-                  <button
+                {["Features", "How it works", "Pricing", "Contact Us"].map((label) => (
+                  <a key={label} href={`/#${label.toLowerCase().replace(" ", "-")}`}>
+                    <button
                     key={label}
                     className="text-xl font-black text-left transition-colors hover:text-indigo-600"
                     style={{ color: "#1e1b4b", background: "none", border: "none", cursor: "pointer" }}
@@ -207,6 +228,7 @@ const Navbar_Landing = () => {
                   >
                     {label}
                   </button>
+                  </a>
                 ))}
 
                 <div className="h-px" style={{ background: "rgba(79,70,229,0.10)" }} />

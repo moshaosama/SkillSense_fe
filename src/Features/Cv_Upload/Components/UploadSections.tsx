@@ -1,7 +1,7 @@
 import UploadBox from "./UploadBox";
 import { FileText } from "lucide-react";
 
-const UploadSections = () => {
+const UploadSections = ({ onNext }: { onNext: () => void }) => {
   return (
     <div className="w-full flex items-center justify-center px-4">
       <div
@@ -34,7 +34,7 @@ const UploadSections = () => {
           </p>
         </div>
 
-        <UploadBox />
+        <UploadBox onNext={onNext} />
       </div>
     </div>
   );

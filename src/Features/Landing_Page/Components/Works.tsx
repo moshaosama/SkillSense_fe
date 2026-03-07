@@ -30,7 +30,7 @@ const steps = [
 
 const Works = () => {
   return (
-    <section className="py-24 bg-slate-50 relative overflow-hidden">
+    <section id="how-it%20works" className="py-24 bg-slate-50 relative overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="flex flex-col items-center text-center space-y-6 mb-20">
           <h2 className="text-4xl md:text-5xl font-black text-slate-900 leading-tight">

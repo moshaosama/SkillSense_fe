@@ -6,6 +6,8 @@ export interface UserType {
     id: string;
     password: string;
     user_name: string;
+    created_at?: string;
+    is_premium?: string;
   };
   statusbar: string;
 }
