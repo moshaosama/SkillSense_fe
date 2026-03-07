@@ -5,7 +5,7 @@ class CV_API {
     formData.append("user_id", user_id);
     formData.append("cv", file);
 
-    const response = await fetch("https://skillsensebeproduction.up.railway.app/api/v1/cv/upload", {
+    const response = await fetch("https://skillsensebe-production.up.railway.app/api/v1/cv/upload", {
       method: "POST",
       body: formData,
     });

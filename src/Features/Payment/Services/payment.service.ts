@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://skillsensebeproduction.up.railway.app/api/v1/payment";
+const BASE_URL = "https://skillsensebe-production.up.railway.app/api/v1/payment";
 
 export interface BillingData {
     email: string;
