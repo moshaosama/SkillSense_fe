@@ -13,6 +13,8 @@ const steps = [
 
 function Index() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [hasUploadedPdf, setHasUploadedPdf] = useState(false);
+  const [analysisData, setAnalysisData] = useState<any>(null);
 
   return (
     <div
@@ -76,6 +78,7 @@ function Index() {
               isShowHr={s.showHr}
               handleMove={() => setCurrentStep(i + 1)}
               stepNumber={i + 1}
+              isLocked={i + 1 > 1 && !hasUploadedPdf}
             />
           ))}
         </motion.div>
@@ -92,6 +95,12 @@ function Index() {
             <SwitchSections 
               currentSwitch={currentStep} 
               onNext={() => setCurrentStep((prev) => Math.min(prev + 1, steps.length))}
+              onUploadSuccess={(data) => {
+                setHasUploadedPdf(true);
+                if (data?.atsAnalysis) setAnalysisData(data.atsAnalysis);
+              }}
+              hasUploadedPdf={hasUploadedPdf}
+              analysisData={analysisData}
             />
           </motion.div>
         </AnimatePresence>

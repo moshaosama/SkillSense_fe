@@ -1,6 +1,6 @@
 import { FcGoogle } from "react-icons/fc";
 import { Github, Mail, Lock, User, Eye, EyeOff, Camera, X } from "lucide-react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema, type LoginType } from "./Schema/auth.schema";
@@ -27,6 +27,8 @@ const AuthForm = ({
     handleSubmit,
   } = useForm<LoginType>({ resolver: zodResolver(LoginSchema) });
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { isAuthenticated } = useAuth();
@@ -48,7 +50,7 @@ const AuthForm = ({
         setLoading(false);
       } else {
         toast.success("Login successfully");
-        setTimeout(() => { setLoading(false); navigate("/"); }, 2000);
+        setTimeout(() => { setLoading(false); navigate(redirectTo); }, 2000);
       }
     }
   };
@@ -77,7 +79,7 @@ const AuthForm = ({
 
       if (response.statusbar === "success") {
         toast.success("Logged in with Google successfully!");
-        setTimeout(() => { setLoading(false); navigate("/"); }, 1500);
+        setTimeout(() => { setLoading(false); navigate(redirectTo); }, 1500);
       } else {
         toast.error(response.message || "Google login failed on server");
         setLoading(false);
@@ -91,9 +93,9 @@ const AuthForm = ({
   useEffect(() => {
     if (isAuthenticated) {
       toast.success("Already logged in!");
-      setTimeout(() => navigate("/"), 1500);
+      setTimeout(() => navigate(redirectTo), 1500);
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, redirectTo]);
 
   return (
     <div

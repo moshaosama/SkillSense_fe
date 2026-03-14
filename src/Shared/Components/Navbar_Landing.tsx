@@ -233,7 +233,18 @@ const Navbar_Landing = () => {
 
                 <div className="h-px" style={{ background: "rgba(79,70,229,0.10)" }} />
 
-                {!isAuthenticated && (
+                {isAuthenticated ? (
+                  <div className="flex flex-col gap-3">
+                    <Link to="/dashboard" onClick={toggleMenu} className="w-full text-left px-4 py-3 text-lg font-black rounded-xl flex items-center gap-2 text-slate-700 hover:bg-slate-50">
+                      <Layout size={20} />
+                      Dashboard
+                    </Link>
+                    <Link to="/profile" onClick={toggleMenu} className="w-full text-left px-4 py-3 text-lg font-black rounded-xl flex items-center gap-2 text-slate-700 hover:bg-slate-50">
+                      <UserIcon size={20} />
+                      Profile
+                    </Link>
+                  </div>
+                ) : (
                   <div className="flex flex-col gap-3">
                     <Link to="/login" onClick={toggleMenu} className="btn-secondary w-full text-center">
                       Login

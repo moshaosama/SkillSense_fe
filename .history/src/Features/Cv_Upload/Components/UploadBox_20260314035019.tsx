@@ -44,7 +44,7 @@ const UploadBox = ({
   hasUploadedPdf = false,
 }: {
   onNext: () => void;
-  onUploadSuccess?: (data?: any) => void;
+  onUploadSuccess?: () => void;
   hasUploadedPdf?: boolean;
 }) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -112,7 +112,7 @@ const UploadBox = ({
           setSelectedFile(null);
           setReplaceMode(false);
           if (fileInputRef.current) fileInputRef.current.value = "";
-          onUploadSuccess?.(data);
+          onUploadSuccess?.();
           onNext(); // Advance to Analyze step
         }, 1500);
       }

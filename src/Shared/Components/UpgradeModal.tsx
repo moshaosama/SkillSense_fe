@@ -5,10 +5,13 @@ import { toast } from "react-toastify";
 import useAuth from "../Hooks/useAuth";
 import PaymentService from "../../Features/Payment/Services/payment.service";
 
+const PLAN_AMOUNTS = { pro: 50, premium: 75 } as const;
+
 interface UpgradeModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
+  plan?: "pro" | "premium";
 }
 
 interface UserData {
@@ -16,7 +19,8 @@ interface UserData {
   user_name?: string;
 }
 
-const UpgradeModal = ({ isOpen, onClose, onSuccess }: UpgradeModalProps) => {
+const UpgradeModal = ({ isOpen, onClose, onSuccess, plan = "pro" }: UpgradeModalProps) => {
+  const amount = PLAN_AMOUNTS[plan];
   const [paymentMethod, setPaymentMethod] = useState<"card" | "instapay" | null>(null);
   const [instapayInfo, setInstapayInfo] = useState<{ ipa: string; name: string; qr_code: string } | null>(null);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
@@ -50,26 +54,31 @@ const UpgradeModal = ({ isOpen, onClose, onSuccess }: UpgradeModalProps) => {
               </div>
 
               <div className="space-y-2">
-                <h2 className="text-3xl font-black text-slate-900">Unlock Pro Features</h2>
+                <h2 className="text-3xl font-black text-slate-900">
+                  {plan === "premium" ? "Unlock Premium" : "Unlock Pro Features"}
+                </h2>
                 <p className="text-slate-500 font-bold">
-                  Portfolio Export is a premium feature. Upgrade to Pro to launch your site.
+                  {plan === "premium"
+                    ? "Get your personal web portfolio and full suite. One-time payment."
+                    : "Portfolio Export and advanced features. One-time payment."}
                 </p>
               </div>
 
               <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100">
                 <div className="flex items-center justify-between mb-4">
                   <span className="font-black text-slate-700">One-Time Payment</span>
-                  <span className="text-2xl font-black text-indigo-600">250 EGP</span>
+                  <span className="text-2xl font-black text-indigo-600">{amount} EGP</span>
                 </div>
                 <ul className="text-left space-y-3">
-                  {["Full Portfolio Export", "Custom Domain Support", "Advanced AI CV Score", "Prioritized Support"].map(
-                    (item) => (
-                      <li key={item} className="flex items-center gap-2 text-sm font-bold text-slate-600">
-                        <CheckCircle2 size={16} className="text-emerald-500" />
-                        {item}
-                      </li>
-                    )
-                  )}
+                  {(plan === "premium"
+                    ? ["Everything in Pro", "Personal Web Portfolio", "Custom Domain Support", "Prioritized Support"]
+                    : ["Full Portfolio Export", "Advanced ATS Analysis", "AI Content Suggestions", "Prioritized Support"]
+                  ).map((item) => (
+                    <li key={item} className="flex items-center gap-2 text-sm font-bold text-slate-600">
+                      <CheckCircle2 size={16} className="text-emerald-500" />
+                      {item}
+                    </li>
+                  ))}
                 </ul>
               </div>
 
@@ -87,7 +96,7 @@ const UpgradeModal = ({ isOpen, onClose, onSuccess }: UpgradeModalProps) => {
                             lastName: userData?.user_name?.split(" ")[1] || "Customer",
                             phone: "01004365707", // Paymob requires a valid phone
                           };
-                          const res = await PaymentService.initiatePayment(250, "card", billing);
+                          const res = await PaymentService.initiatePayment(amount, "card", billing);
                           if (res.success && res.data?.checkoutUrl) {
                             window.location.href = res.data.checkoutUrl;
                           }
@@ -147,7 +156,7 @@ const UpgradeModal = ({ isOpen, onClose, onSuccess }: UpgradeModalProps) => {
                         try {
                           await PaymentService.confirmInstapayPayment(
                             userData?.email || "user@example.com",
-                            250
+                            amount
                           );
                           handleClose();
                           onSuccess();
