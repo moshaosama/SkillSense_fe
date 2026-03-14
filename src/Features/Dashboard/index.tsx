@@ -92,7 +92,7 @@ const DashboardFeature = () => {
                     <Zap size={24} />
                 </div>
                 <h3 className="text-xl font-black mb-2">Upgrade to Pro</h3>
-                <p className="text-indigo-100 font-medium text-sm mb-6 opacity-90">Unlock advanced ATS insights, custom domains, and AI-powered cover letters.</p>
+                <p className="text-indigo-100 font-medium text-sm mb-6 opacity-90">From 50 EGP one-time. Unlock advanced ATS insights, custom domains, and AI-powered cover letters.</p>
                 <Link to="/#pricing" className="w-full py-3.5 bg-white text-indigo-600 rounded-2xl font-black text-center block shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
                     See Plans
                 </Link>

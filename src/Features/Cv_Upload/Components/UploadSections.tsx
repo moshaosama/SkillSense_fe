@@ -1,7 +1,7 @@
 import UploadBox from "./UploadBox";
 import { FileText } from "lucide-react";
 
-const UploadSections = ({ onNext }: { onNext: () => void }) => {
+const UploadSections = ({ onNext, onUploadSuccess, hasUploadedPdf }: { onNext: () => void; onUploadSuccess?: (data?: any) => void; hasUploadedPdf?: boolean }) => {
   return (
     <div className="w-full flex items-center justify-center px-4">
       <div
@@ -34,7 +34,7 @@ const UploadSections = ({ onNext }: { onNext: () => void }) => {
           </p>
         </div>
 
-        <UploadBox onNext={onNext} />
+        <UploadBox onNext={onNext} onUploadSuccess={onUploadSuccess} hasUploadedPdf={hasUploadedPdf} />
       </div>
     </div>
   );

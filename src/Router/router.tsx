@@ -6,8 +6,11 @@ import Sign_Up from "../Pages/Sign_Up";
 import UploadCV from "../Features/Cv_Upload/index";
 import Templates from "../Pages/Templates";
 import Dashboard_Page from "../Pages/Dashboard_Page";
-import ComingSoon from "../Pages/ComingSoon";
 import Profile_Page from "../Pages/Profile_Page";
+import ProtectedRoute from "../Shared/Components/ProtectedRoute";
+import MyPortfolioPage from "../Pages/MyPortfolioPage";
+import AnalysisPage from "../Pages/AnalysisPage";
+import SettingsPage from "../Pages/SettingsPage";
 import PrivacyPolicy from "../Pages/Legal/PrivacyPolicy";
 import TermsOfService from "../Pages/Legal/TermsOfService";
 import CookiePolicy from "../Pages/Legal/CookiePolicy";
@@ -32,7 +35,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/upload-cv",
-        element: <UploadCV />,
+        element: <ProtectedRoute><UploadCV /></ProtectedRoute>,
       },
       {
         path: "/templates",
@@ -40,23 +43,23 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element: <Dashboard_Page />
+        element: <ProtectedRoute><Dashboard_Page /></ProtectedRoute>,
       },
       {
         path: "/my-portfolio",
-        element: <ComingSoon />
+        element: <MyPortfolioPage />
       },
       {
         path: "/analysis",
-        element: <ComingSoon />
+        element: <AnalysisPage />
       },
       {
         path: "/settings",
-        element: <ComingSoon />
+        element: <SettingsPage />
       },
       {
         path: "/profile",
-        element: <Profile_Page />
+        element: <ProtectedRoute><Profile_Page /></ProtectedRoute>,
       },
       {
         path: "/privacy-policy",

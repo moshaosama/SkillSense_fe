@@ -20,6 +20,7 @@ const CardFeatures = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.55, delay: index * 0.1 }}
+      whileHover={{ y: -4, transition: { duration: 0.2 } }}
       className="card-premium group relative flex flex-col gap-6 h-full"
     >
       {/* Gradient blob behind icon */}
